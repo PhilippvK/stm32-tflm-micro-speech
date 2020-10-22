@@ -79,6 +79,8 @@ do
     exit 1
   fi
   COMMAND_FILES=(`find $DATASET_DIR/$COMMAND -iname '*.wav'`)
+  #echo -e "COMMAND_FILES=\n${COMMAND_FILES[@]}"
+  #echo
   for i in $(seq $COUNT)
   do
     RAND=`expr $RANDOM % 100`
