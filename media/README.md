@@ -58,6 +58,8 @@ rm -f output/micro_speech/* # Remove old files
 ./gen_micro_speech_files.sh /tmp/micro_speech_dataset ./output/micro_speech yes,no 5
 ```
 
+*Short Manual:* `Usage: ./gen_micro_speech_files.sh [DATASET_DIR] [OUTPUT_DIR] [COMMANDS] [COUNT]`
+
 ## Setup SD-Card
 
 Copy the `micro_speech` directory either from the `media/output/` directory or from where you extracted the contents of [`sd_card.zip`](https://raw.githubusercontent.com/PhilippvK/stm32-tflm-demos/master/media/sd_card.zip) to directory to the root directory of the SD card.
