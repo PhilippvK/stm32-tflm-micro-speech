@@ -4,6 +4,8 @@ This example is a micrphone-enabled vocal yes/no detector. It can tell apart *ye
 
 Moreover, the demo can take input from either the microphone or from voice samples that we have loaded from the SD-Card.
 
+You may also be interested in our wrapper repository [stm32-tflm-demos](https://github.com/PhilippvK/stm32-tflm-demos) for further details.
+
 ## Build
 ### Project configuration
 Firstly, you have to choose whether you want to use the board's microphone to record audio samples real-time, or load pre-recorded samples from the SD card. You make this choice by setting ```FAKE_MIC``` on line 72 in ```CMakeLists.txt``` to either ON or OFF.
