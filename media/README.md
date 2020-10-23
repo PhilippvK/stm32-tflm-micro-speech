@@ -58,6 +58,8 @@ rm -f output/micro_speech/* # Remove old files
 ./gen_micro_speech_files.sh /tmp/micro_speech_dataset ./output/micro_speech yes,no 5
 ```
 
+*Short Manual:* `Usage: ./gen_micro_speech_files.sh [DATASET_DIR] [OUTPUT_DIR] [COMMANDS] [COUNT]`
+
 ## Setup SD-Card
 
 Copy the `micro_speech` directory either from the `media/output/` directory or from where you extracted the contents of [`sd_card.zip`](https://raw.githubusercontent.com/PhilippvK/stm32-tflm-demos/master/media/sd_card.zip) to directory to the root directory of the SD card.
@@ -70,3 +72,8 @@ Up to 16 `*.wav` files found in the `micro_speech` directory on the SD-Card are 
 **Warning:** The network performs especially bad if the current sample changes, as the audio player has to be re-initialized to fetch a new wave file from the external media.
 
 The name of the currently played file is displayed on the touchscreen. And all files found when reading the directory are printed on UART before the network starts.
+
+## Known Issues
+
+ - As mentioned before, the transitions between samples is quite buggy and still needs some optimazions
+ - Feeding silent wave data does not result in `silence` beeing detected. Maybe a Volume-Normalization problem?
