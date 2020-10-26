@@ -18,8 +18,8 @@
   */
 
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef SRC_DISCO_F769NI_GPIO_H_
-#define SRC_DISCO_F769NI_GPIO_H_
+#ifndef SRC_GPIO_H_
+#define SRC_GPIO_H_
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -32,4 +32,4 @@ void MX_GPIO_Init(void);
 #ifdef __cplusplus
 }
 #endif
-#endif  // SRC_DISCO_F769NI_GPIO_H_
+#endif  // SRC_GPIO_H_

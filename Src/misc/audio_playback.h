@@ -1,8 +1,9 @@
 /**
   ******************************************************************************
-  * @file           : audio.h
-  * @brief          : Header for audio.c file.
-  *                   This file contains the exported function prototypes for audio
+  * @file           : audio_playback.h
+  * @author         : Philipp v. K. <philipp.van-kempen@tum.de>
+  * @brief          : Header for audio_playback.cc file.
+  *                   This file contains the exported function prototypes
   ******************************************************************************
   * @attention
   *
@@ -10,7 +11,6 @@
   *
   ******************************************************************************
   */
-/* USER CODE END Header */
 
 /* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef SRC_MISC_AUDIO_PLAYBACK_H_

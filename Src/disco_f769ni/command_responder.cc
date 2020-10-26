@@ -11,6 +11,12 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
+
+Modifications by @PhilippvK:
+- Support STM32F769NI instead of STM32F413NG
+- Changed formatting according to cpplint
+- Removed prefix from Includes
+
 ==============================================================================*/
 
 #include "tensorflow/lite/micro/examples/micro_speech/command_responder.h"

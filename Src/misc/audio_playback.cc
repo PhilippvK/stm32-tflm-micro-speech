@@ -1,8 +1,9 @@
 /**
   ******************************************************************************
-  * @file    Src/audio.c
-  * @author  TODO
-  * @brief   TODO
+  * @file    audio_playback.cc
+  * @author  Philipp v. K. <philipp.van-kempen@tum.de>
+  * @brief   Contains Routines and Callbacks from streaming wave files from
+  *          a buffer
   *
   ******************************************************************************
   * @attention
@@ -61,7 +62,7 @@ static uint32_t AudioFreq[8] = {8000, 11025, 16000, 22050,
                                 32000, 44100, 48000, 96000};
 
 /* Private function prototypes -----------------------------------------------*/
-static uint32_t GetData(void *pdata, uint32_t offset, uint8_t *pbuf,
+static uint32_t GetData(uint8_t *pdata, uint32_t offset, uint8_t *pbuf,
                         uint32_t NbrOfData);
 AUDIO_ErrorTypeDef AUDIO_Start(uint32_t audio_start_address,
                                uint32_t audio_file_size);
@@ -139,11 +140,14 @@ AUDIO_ErrorTypeDef AUDIO_Start(uint32_t audio_start_address,
   buffer_ctl.state = BUFFER_OFFSET_NONE;
   AudioStartAddress = audio_start_address;
   AudioFileSize = audio_file_size;
-  bytesread = GetData((void *)AudioStartAddress,
+  bytesread = GetData((uint8_t *)AudioStartAddress,
                       0,
                       &buffer_ctl.buff[0],
                       AUDIO_BUFFER_SIZE);
   if (bytesread > 0) {
+#ifdef STM32_BOARD_STM32F769I_DISCOVERY
+    BSP_AUDIO_OUT_SetAudioFrameSlot(CODEC_AUDIOFRAME_SLOT_02);
+#endif /* STM32_BOARD_STM32F769I_DISCOVERY */
     BSP_AUDIO_OUT_Play((uint16_t*)&buffer_ctl.buff[0], AUDIO_BUFFER_SIZE);
     audio_state = AUDIO_STATE_PLAYING;
     buffer_ctl.fptr = bytesread;
@@ -173,7 +177,7 @@ uint8_t AUDIO_Process(void) {
     /* 1st half buffer played; so fill it and continue playing from bottom*/
     if (buffer_ctl.state == BUFFER_OFFSET_HALF) {
       AudioSamples(&buffer_ctl.buff[0]);
-      bytesread = GetData((void *)AudioStartAddress,
+      bytesread = GetData((uint8_t *)AudioStartAddress,
                           buffer_ctl.fptr,
                           &buffer_ctl.buff[0],
                           AUDIO_BUFFER_SIZE /2);
@@ -187,7 +191,7 @@ uint8_t AUDIO_Process(void) {
     /* 2nd half buffer played; so fill it and continue playing from top */
     if (buffer_ctl.state == BUFFER_OFFSET_FULL) {
       AudioSamples(&buffer_ctl.buff[AUDIO_BUFFER_SIZE /2]);
-      bytesread = GetData((void *)AudioStartAddress,
+      bytesread = GetData((uint8_t *)AudioStartAddress,
                           buffer_ctl.fptr,
                           &buffer_ctl.buff[AUDIO_BUFFER_SIZE /2],
                           AUDIO_BUFFER_SIZE /2);
@@ -211,7 +215,7 @@ uint8_t AUDIO_Process(void) {
   * @param  None
   * @retval None
   */
-static uint32_t GetData(void *pdata, uint32_t offset, uint8_t *pbuf,
+static uint32_t GetData(uint8_t *pdata, uint32_t offset, uint8_t *pbuf,
                         uint32_t NbrOfData) {
   uint8_t *lptr = pdata;
   uint32_t ReadDataNbr;

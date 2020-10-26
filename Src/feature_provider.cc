@@ -11,13 +11,18 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
+
+Modifications by @PhilippvK:
+- Formatted according to cpplint
+- Removed Prefix from includes
+- Added functions to display Waveform/Spectrogram (disabled)
 ==============================================================================*/
 
 #include "feature_provider.h"
 
 #include "audio_provider.h"
-#include "tensorflow/lite/micro/examples/micro_speech/micro_features/micro_features_generator.h"
-#include "tensorflow/lite/micro/examples/micro_speech/micro_features/micro_model_settings.h"
+#include "micro_features/micro_features_generator.h"
+#include "micro_features/micro_model_settings.h"
 
 //#include "main.h"
 //#include <string.h>

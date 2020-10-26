@@ -11,10 +11,15 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
+
+
+Modifications by @PhilippvK:
+- Formatted according to cpplint
+
 ==============================================================================*/
 
-#ifndef TENSORFLOW_LITE_MICRO_EXAMPLES_MICRO_SPEECH_MICRO_FEATURES_MICRO_MODEL_SETTINGS_H_
-#define TENSORFLOW_LITE_MICRO_EXAMPLES_MICRO_SPEECH_MICRO_FEATURES_MICRO_MODEL_SETTINGS_H_
+#ifndef SRC_MICRO_FEATURES_MICRO_MODEL_SETTINGS_H_
+#define SRC_MICRO_FEATURES_MICRO_MODEL_SETTINGS_H_
 
 // Keeping these as constant expressions allow us to allocate fixed-sized arrays
 // on the stack for our working memory.
@@ -40,4 +45,4 @@ constexpr int kUnknownIndex = 1;
 constexpr int kCategoryCount = 4;
 extern const char* kCategoryLabels[kCategoryCount];
 
-#endif  // TENSORFLOW_LITE_MICRO_EXAMPLES_MICRO_SPEECH_MICRO_FEATURES_MICRO_MODEL_SETTINGS_H_
+#endif  // SRC_MICRO_FEATURES_MICRO_MODEL_SETTINGS_H_

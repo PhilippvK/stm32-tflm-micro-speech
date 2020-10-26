@@ -11,6 +11,12 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
+
+Modifications by @PhilippvK:
+- Support STM32F769NI instead of STM32F413NG
+- Changed formatting according to cpplint
+- Removed prefix from Includes
+
 ==============================================================================*/
 
 #include "audio_provider.h"
@@ -31,18 +37,13 @@ int16_t g_audio_capture_buffer[kAudioCaptureBufferSize];
 int16_t g_audio_output_buffer[kMaxAudioSampleSize];
 int32_t g_latest_audio_timestamp = 0;
 
-// For a full example of how to access audio on the STM32F746NG board, see
-// https://os.mbed.com/teams/ST/code/DISCO-F746NG_AUDIO_demo/
-//AUDIO_DISCO_F746NG g_audio_device;
-//SDRAM_DISCO_F746NG g_sdram_device;
-
 typedef enum {
   BUFFER_OFFSET_NONE = 0,
   BUFFER_OFFSET_HALF = 1,
   BUFFER_OFFSET_FULL = 2,
 } BUFFER_StateTypeDef;
 
-#define AUDIO_BLOCK_SIZE ((uint32_t)4096)
+#define AUDIO_BLOCK_SIZE ((uint32_t)2048)
 
 #define SDRAM_WRITE_READ_ADDR        ((uint32_t)0xC0177000)
 #define AUDIO_REC_START_ADDR SDRAM_WRITE_READ_ADDR

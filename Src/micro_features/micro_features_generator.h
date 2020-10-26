@@ -11,10 +11,14 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
+
+Modifications by @PhilippvK:
+- Formatted according to cpplint
+
 ==============================================================================*/
 
-#ifndef TENSORFLOW_LITE_MICRO_EXAMPLES_MICRO_SPEECH_MICRO_FEATURES_MICRO_FEATURES_GENERATOR_H_
-#define TENSORFLOW_LITE_MICRO_EXAMPLES_MICRO_SPEECH_MICRO_FEATURES_MICRO_FEATURES_GENERATOR_H_
+#ifndef SRC_SPEECH_MICRO_FEATURES_MICRO_FEATURES_GENERATOR_H_
+#define SRC_MICRO_FEATURES_MICRO_FEATURES_GENERATOR_H_
 
 #include "tensorflow/lite/c/common.h"
 #include "tensorflow/lite/micro/micro_error_reporter.h"
@@ -29,4 +33,4 @@ TfLiteStatus GenerateMicroFeatures(tflite::ErrorReporter* error_reporter,
                                    int output_size, int8_t* output,
                                    size_t* num_samples_read);
 
-#endif  // TENSORFLOW_LITE_MICRO_EXAMPLES_MICRO_SPEECH_MICRO_FEATURES_MICRO_FEATURES_GENERATOR_H_
+#endif  // SRC_MICRO_FEATURES_MICRO_FEATURES_GENERATOR_H_

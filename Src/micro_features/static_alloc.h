@@ -11,10 +11,14 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
+
+Modifications by @PhilippvK:
+- Formatted according to cpplint
+
 ==============================================================================*/
 
-#ifndef TENSORFLOW_LITE_MICRO_EXAMPLES_MICRO_SPEECH_MICRO_FEATURES_STATIC_ALLOC_H_
-#define TENSORFLOW_LITE_MICRO_EXAMPLES_MICRO_SPEECH_MICRO_FEATURES_STATIC_ALLOC_H_
+#ifndef SRC_MICRO_FEATURES_STATIC_ALLOC_H_
+#define SRC_MICRO_FEATURES_STATIC_ALLOC_H_
 
 // Checks to ensure that the C-style array passed in has a compile-time size of
 // at least the number of bytes requested. This doesn't work with raw pointers
@@ -30,4 +34,4 @@ limitations under the License.
     }                                                                      \
   } while (0)
 
-#endif  // TENSORFLOW_LITE_MICRO_EXAMPLES_MICRO_SPEECH_MICRO_FEATURES_STATIC_ALLOC_H_
+#endif  // SRC_MICRO_FEATURES_STATIC_ALLOC_H_

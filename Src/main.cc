@@ -1,11 +1,18 @@
 /**
   ******************************************************************************
-  * @file           : main.cpp
-  * @brief          : Main program body
+  * @file           : main.cc
+  * @author         : Philipp v. K. <philipp.van-kempen@tum.de>
+  * @brief          : Main program for micro_speech example
+  *                   Initializes Peripherals and calls Setup- and
+  *                   Loop-Routines of TFLite Model
   ******************************************************************************
   * @attention
   *
-  * TODO: License
+  * The file was originally generated with
+  * STM32CubeIDE [Copyright (c) 2020 STMicroelectronics]
+  * but modified intensively.
+  *
+  * Copyright 2020 <TODO>
   *
   ******************************************************************************
   */
@@ -47,7 +54,6 @@ uint8_t* data;
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
-static void BSP_Init(void);
 static void BSP_Welcome(void);
 #ifdef FAKE_MIC
 void displayFileName(char* name);
@@ -63,10 +69,11 @@ int main(void)
 {
   /* Local Variables */
 #ifdef FAKE_MIC
-  const uint32_t tick_limit = 5000;
-  uint32_t last_ticks = 0;
+  const uint32_t tick_limit = 1000;
+  uint32_t last_ticks = -tick_limit;
   uint32_t file_index = 0;
   uint32_t file_count;
+  bool muted = true;
 #endif /* FAKE_MIC */
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
@@ -94,6 +101,7 @@ int main(void)
   file_count = get_files(TFLM_EXAMPLE, TFLM_FILE_EXT, filenames, filesizes);
   if (file_count > 0) {
     file_index = 0;
+    AudioInit();
   } else {
     Error_Handler();
   }
@@ -147,42 +155,6 @@ uint8_t CheckForUserInput(void)
     return 1 ;
   }
   return 0;
-}
-
-/**
-  * @brief Board Support Package Initialization
-  * @retval None
-  *
-  */
-static void BSP_Init(void)
-{
-  /* Configure LEDs */
-  BSP_LED_Init(LED_GREEN);
-  BSP_LED_Init(LED_RED);
-  BSP_LED_On(LED_GREEN);
-
-  /* Configure Button */
-  BSP_PB_Init(BUTTON_WAKEUP, BUTTON_MODE_GPIO);
-  /* Configure LCD */
-  /* Initialize the LCD */
-  uint8_t  lcd_status = LCD_OK;
-  lcd_status = BSP_LCD_Init();
-  while(lcd_status != LCD_OK);
-#ifdef STM32_BOARD_STM32F769I_DISCOVERY
-  BSP_LCD_LayerDefaultInit(0, LCD_FB_START_ADDRESS);
-#endif /* STM32_BOARD_STM32F769I_DISCOVERY */
-  //BSP_LCD_DisplayOn();
-  BSP_LCD_Clear(LCD_COLOR_WHITE);
-
-  /* Configure Touchscreen (optional) */
-  //Touchscreen_Calibration();
-  BSP_TS_Init(BSP_LCD_GetXSize(), BSP_LCD_GetYSize());
-
-  /* Set Default LCD Colors and Fonts */
-  BSP_LCD_Clear(LCD_COLOR_WHITE);
-  BSP_LCD_SetTextColor(LCD_COLOR_BLACK);
-  BSP_LCD_SetBackColor(LCD_COLOR_WHITE);
-  BSP_LCD_SetFont(&Font12);
 }
 
 /**

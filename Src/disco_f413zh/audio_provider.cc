@@ -11,6 +11,12 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
+
+Modifications by @PhilippvK:
+- Support STM32F413ZH instead of STM32F413NG
+- Changed formatting according to cpplint
+- Removed prefix from Includes
+
 ==============================================================================*/
 
 #include "audio_provider.h"
@@ -30,11 +36,6 @@ constexpr int kAudioCaptureBufferSize = kAudioSampleFrequency * 2;
 int16_t g_audio_capture_buffer[kAudioCaptureBufferSize];
 int16_t g_audio_output_buffer[kMaxAudioSampleSize];
 int32_t g_latest_audio_timestamp = 0;
-
-// For a full example of how to access audio on the STM32F746NG board, see
-// https://os.mbed.com/teams/ST/code/DISCO-F746NG_AUDIO_demo/
-//AUDIO_DISCO_F746NG g_audio_device;
-//SDRAM_DISCO_F746NG g_sdram_device;
 
 typedef enum {
   BUFFER_OFFSET_NONE = 0,
@@ -180,15 +181,9 @@ void BSP_AUDIO_IN_Error_Callback(void)
 {
   /* This function is called when an Interrupt due to transfer error on or peripheral
      error occurs. */
-  /* Display message on the LCD screen */
-  //BSP_LCD_SetBackColor(LCD_COLOR_RED);
-  //BSP_LCD_DisplayStringAt(0, LINE(14), (uint8_t *)"       DMA  ERROR     ", CENTER_MODE);
+
   while(1);
-  /* Stop the program with an infinite loop */
-  //while (BSP_PB_GetState(BUTTON_WAKEUP) != RESET)
-  //{
-  //  return;
-  //}
+
   /* could also generate a system reset to recover from the error */
   /* .... */
 }
@@ -214,7 +209,6 @@ TfLiteStatus GetAudioSamples(tflite::ErrorReporter* error_reporter,
   const int duration_sample_count =
       duration_ms * (kAudioSampleFrequency / 1000);
   BSP_LED_Toggle((Led_TypeDef)1);
-  //TF_LITE_REPORT_ERROR(error_reporter, "OUTPUT");
   for (int i = 0; i < duration_sample_count; ++i) {
     const int capture_index = (start_offset + i) % kAudioCaptureBufferSize;
     g_audio_output_buffer[i] = g_audio_capture_buffer[capture_index];

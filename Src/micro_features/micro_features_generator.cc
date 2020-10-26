@@ -11,16 +11,21 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
+
+Modifications by @PhilippvK:
+- Formatted according to cpplint
+- Removed Prefix from Includes
+
 ==============================================================================*/
 
-#include "tensorflow/lite/micro/examples/micro_speech/micro_features/micro_features_generator.h"
+#include "micro_features_generator.h"
 
 #include <cmath>
 #include <cstring>
 
 #include "tensorflow/lite/experimental/microfrontend/lib/frontend.h"
 #include "tensorflow/lite/experimental/microfrontend/lib/frontend_util.h"
-#include "tensorflow/lite/micro/examples/micro_speech/micro_features/micro_model_settings.h"
+#include "micro_model_settings.h"
 
 // Configure FFT to output 16 bit fixed point.
 #define FIXED_POINT 16
