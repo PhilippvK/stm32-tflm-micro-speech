@@ -215,7 +215,7 @@ void displayFileName(char* name) {
   BSP_LCD_SetTextColor(LCD_COLOR_BLACK);
   BSP_LCD_SetBackColor(LCD_COLOR_WHITE);
   sprintf(str, "<%s>", name);
-  BSP_LCD_DisplayStringAt(0, 256-50, (uint8_t *)str, CENTER_MODE);
+  BSP_LCD_DisplayStringAt(0, BSP_LCD_GetYSize()-2*10, (uint8_t *)str, CENTER_MODE);
 }
 #endif /* FAKE_MIC */
 

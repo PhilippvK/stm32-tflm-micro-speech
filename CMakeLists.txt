@@ -69,7 +69,7 @@ ENDIF()
 ADD_DEFINITIONS(-DNOMBED)
 
 ### Configure 'micro_speech' Example ###
-SET(FAKE_MIC ON) # Use SD Card instead of Microphone
+SET(FAKE_MIC OFF) # Use SD Card instead of Microphone
 ADD_DEFINITIONS(-DFIXED_POINT=16)
 ADD_DEFINITIONS(-DTFLM_EXAMPLE="micro_speech" -DTFLM_BOARD="${TFLM_BOARD}")
 IF(${FAKE_MIC})
