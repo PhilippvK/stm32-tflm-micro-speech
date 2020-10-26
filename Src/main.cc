@@ -116,19 +116,25 @@ int main(void)
     uint32_t cur_ticks = HAL_GetTick();
     if (cur_ticks-last_ticks > tick_limit) {
       last_ticks = cur_ticks;
-      AudioDeinit(); // TODO: only if init?
-      AudioInit();
-      if (!data) {
-        free(data);
-      }
-      data = get_data(TFLM_EXAMPLE, filenames[file_index], filesizes[file_index]);
-      if (data) {
-        displayFileName(filenames[file_index]);
-        AudioPlay(data, filesizes[file_index]);
+      if (muted) {
+        muted = false;
+        AudioDeinit(); // TODO: only if init?
+        AudioInit();
+        if (data) {
+          free(data);
+        }
+        data = get_data(TFLM_EXAMPLE, filenames[file_index], filesizes[file_index]);
+        if (data) {
+          displayFileName(filenames[file_index]);
+          AudioPlay(data, filesizes[file_index]);
+        } else {
+          Error_Handler();
+        }
+        file_index = (file_index + 1) % file_count;
       } else {
-        Error_Handler();
+        muted = true;
       }
-      file_index = (file_index + 1) % file_count;
+      AudioSetMute(muted);
     }
 #endif /* FAKE_MIC */
 

@@ -56,6 +56,7 @@ static AUDIO_BufferTypeDef  buffer_ctl;
 static AUDIO_PLAYBACK_StateTypeDef  audio_state;
 static uint32_t  AudioStartAddress;
 static uint32_t  AudioFileSize;
+static bool mute = false;
 __IO uint32_t uwVolume = 20;
 
 static uint32_t AudioFreq[8] = {8000, 11025, 16000, 22050,
@@ -98,6 +99,15 @@ void AudioPlay(uint8_t* data, uint32_t size) {
   */
 void AudioLoop() {
   AUDIO_Process();
+}
+
+/**
+  * @brief  TODO
+  * @param  val (boolean)
+  * @retval None
+  */
+void AudioSetMute(bool val) {
+  mute = val;
 }
 
 /**
@@ -223,7 +233,11 @@ static uint32_t GetData(uint8_t *pdata, uint32_t offset, uint8_t *pbuf,
   ReadDataNbr = 0;
   while (((offset + ReadDataNbr) < AudioFileSize) &&
          (ReadDataNbr < NbrOfData)) {
-    pbuf[ReadDataNbr] = lptr[offset + ReadDataNbr];
+    if (!mute) {
+      pbuf[ReadDataNbr] = lptr[offset + ReadDataNbr];
+    } else {
+      pbuf[ReadDataNbr] = 0;
+    }
     ReadDataNbr++;
   }
   return ReadDataNbr;

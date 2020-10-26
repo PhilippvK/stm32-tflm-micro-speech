@@ -44,6 +44,7 @@ void AudioInit(void);
 void AudioDeinit(void);
 void AudioPlay(uint8_t* data, uint32_t size);
 void AudioLoop(void);
+void AudioSetMute(bool);
 void AudioSamples(uint8_t* buf);
 
 #endif /* FAKE_MIC */
