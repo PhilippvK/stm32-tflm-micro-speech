@@ -6,6 +6,10 @@ Moreover, the demo can take input from either the microphone or from voice sampl
 
 You may also be interested in our wrapper repository [stm32-tflm-demos](https://github.com/PhilippvK/stm32-tflm-demos) for further details.
 
+## Demo
+
+![](micro_speech_demo.gif)
+
 ## Build
 ### Project configuration
 
