@@ -36,7 +36,11 @@ Modifications by @PhilippvK:
 #else
 #include "model_data.h"
 #include "tensorflow/lite/micro/micro_error_reporter.h"
+#ifdef MEMORY_REPORTING
+#include "tensorflow/lite/micro/recording_micro_interpreter.h"
+#else
 #include "tensorflow/lite/micro/micro_interpreter.h"
+#endif /* MEMORY_REPORTING */
 #include "tensorflow/lite/micro/micro_mutable_op_resolver.h"
 #include "tensorflow/lite/schema/schema_generated.h"
 #include "tensorflow/lite/version.h"
@@ -51,7 +55,11 @@ namespace {
 tflite::ErrorReporter* error_reporter = nullptr;
 #ifndef TFLM_MODE_COMPILER
 const tflite::Model* model = nullptr;
+#ifdef MEMORY_REPORTING
+tflite::RecordingMicroInterpreter* interpreter = nullptr;
+#else
 tflite::MicroInterpreter* interpreter = nullptr;
+#endif /* MEMORY_REPORTING */
 TfLiteTensor* model_input = nullptr;
 #endif /* TFLM_MODE_COMPILER */
 FeatureProvider* feature_provider = nullptr;
@@ -115,8 +123,13 @@ void setup() {
   }
 
   // Build an interpreter to run the model with.
+#ifdef MEMORY_REPORTING
+  static tflite::RecordingMicroInterpreter static_interpreter(
+      model, micro_op_resolver, tensor_arena, kTensorArenaSize, error_reporter);
+#else
   static tflite::MicroInterpreter static_interpreter(
       model, micro_op_resolver, tensor_arena, kTensorArenaSize, error_reporter);
+#endif /* MEMORY_REPORTING */
   interpreter = &static_interpreter;
 
   // Allocate memory from the tensor_arena for the model's tensors.
@@ -205,6 +218,10 @@ void loop() {
   TfLiteTensor* output = micro_speech_output(0);
 #else
   TfLiteTensor* output = interpreter->output(0);
+#ifdef MEMORY_REPORTING
+  // Print out detailed allocation information:
+  interpreter->GetMicroAllocator().PrintAllocations();
+#endif /* MEMORY_REPORTING */
 #endif
 
   // Determine whether a command was recognized based on the output of inference
