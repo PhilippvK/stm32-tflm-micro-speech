@@ -46,12 +46,6 @@ ENDIF()
 #SET(TFLM_MODE compiler)
 SET(TFLM_MODE interpreter)
 
-# (TODO)
-IF(${TFLM_MODE} STREQUAL compiler)
-  SET(CMAKE_TFLM_COMPILER_FILE ${CMAKE_MODULE_PATH}/tflm_compiler.cmake)
-  INCLUDE(${CMAKE_TFLM_COMPILER_FILE})
-ENDIF()
-
 ### Enable/Disable usage of CMSISNN custom kernels ###
 SET(TFLM_USE_CMSIS_NN ON)
 IF(${TFLM_USE_CMSIS_NN})
@@ -112,7 +106,7 @@ FIND_PACKAGE(TFLite REQUIRED)
 SET(TFLITE_PLATFORM micro)
 
 # Setup Compiler
-SET(ENABLE_TFLM_COMPILER ON)
+SET(ENABLE_TFLM_COMPILER OFF)
 IF(ENABLE_TFLM_COMPILER)
   INCLUDE(external/tflite_micro_compiler.cmake)
 ENDIF()
