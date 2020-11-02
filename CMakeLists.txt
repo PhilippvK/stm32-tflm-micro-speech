@@ -21,7 +21,6 @@ SET(CMAKE_C_FLAGS "-mcpu=cortex-m4 -mthumb -mfloat-abi=softfp -Wall \
 -mfpu=fpv4-sp-d16 -Wl,-Map=output.map -Wl,--gc-sections -g3")
 
 SET(TFLM_MODES interpreter compiler)
-SET(TFLM_COMPILER_EXECUTABLE "TODO") # TODO
 
 ### Configure STM32 Board here ###
 #SET(STM32_CHIP STM32F413ZHT6)
@@ -79,6 +78,7 @@ ENDIF()
 ADD_DEFINITIONS(-DNOMBED)
 
 ### Configure 'micro_speech' Example ###
+SET(TFLM_EXAMPLE "micro_speech")
 SET(FAKE_MIC OFF) # Use SD Card instead of Microphone
 ADD_DEFINITIONS(-DFIXED_POINT=16)
 ADD_DEFINITIONS(-DTFLM_EXAMPLE="micro_speech" -DTFLM_BOARD="${TFLM_BOARD}")
@@ -110,6 +110,12 @@ ENDIF()
 #SET(TF_COMMIT d6426459bca2971b611ca9773858e55f6cc1a9af) # TODO
 FIND_PACKAGE(TFLite REQUIRED)
 SET(TFLITE_PLATFORM micro)
+
+# Setup Compiler
+SET(ENABLE_TFLM_COMPILER ON)
+IF(ENABLE_TFLM_COMPILER)
+  INCLUDE(external/tflite_micro_compiler.cmake)
+ENDIF()
 
 ### Configure FreeRTOS (optional, not supported!)
 #SET(FREERTOS_HEAP_IMPL 1)
