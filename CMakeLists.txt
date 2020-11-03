@@ -53,7 +53,7 @@ IF(${TFLM_USE_CMSIS_NN})
 ENDIF()
 
 ### Enable/Disable Benchmarking ###
-SET(ENABLE_BENCHMARKING OFF)
+SET(ENABLE_BENCHMARKING ON)
 IF(${ENABLE_BENCHMARKING})
   ADD_DEFINITIONS(-DBENCHMARKING)
 ENDIF()
@@ -147,8 +147,6 @@ FILE(GLOB EXAMPLE_SOURCES
     "Src/*.cc"
     "Src/misc/*.c"
     "Src/misc/*.cc"
-    "Src/misc/benchmarking/*.c"
-    "Src/misc/benchmarking/*.cc"
     "Src/micro_features/*.c"
     "Src/micro_features/*.cc"
     "Src/${TFLM_BOARD}/*.c"

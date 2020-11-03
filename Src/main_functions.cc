@@ -46,9 +46,7 @@ Modifications by @PhilippvK:
 #include "tensorflow/lite/version.h"
 #endif /* TFLM_MODE_COMPILER */
 
-#ifdef BENCHMARKING
 #include "benchmarking.h"
-#endif /* BENCHMARKING */
 
 // Globals, used for compatibility with Arduino-style sketches.
 namespace {
@@ -167,23 +165,23 @@ void setup() {
 
 // The name of this function is important for Arduino compatibility.
 void loop() {
+  DECLARE_BENCHMARK(populate);
+  DECLARE_BENCHMARK(invoke);
+  DECLARE_BENCHMARK(respond);
+
   // Fetch the spectrogram for the current time.
   const int32_t current_time = LatestAudioTimestamp();
   int how_many_new_slices = 0;
-#ifdef BENCHMARKING
-  uint32_t ticks_before, ticks_after;
-  ticks_before = HAL_GetTick();
-#endif /* BENCHMARKING */
+
+  START_BENCHMARK(populate);
   TfLiteStatus feature_status = feature_provider->PopulateFeatureData(
       error_reporter, previous_time, current_time, &how_many_new_slices);
   if (feature_status != kTfLiteOk) {
     TF_LITE_REPORT_ERROR(error_reporter, "Feature generation failed");
     return;
   }
-#ifdef BENCHMARKING
-  ticks_after = HAL_GetTick();
-  update_avg_ticks(TICKS_POPULATE, (int32_t)(ticks_after-ticks_before));
-#endif /* BENCHMARKING */
+  STOP_BENCHMARK(populate);
+
   previous_time = current_time;
   // If no new audio samples have been received since last time, don't bother
   // running the network model.
@@ -197,9 +195,7 @@ void loop() {
   }
 
   // Run the model on the spectrogram input and make sure it succeeds.
-#ifdef BENCHMARKING
-  ticks_before = HAL_GetTick();
-#endif /* BENCHMARKING */
+  START_BENCHMARK(invoke);
 #ifdef TFLM_MODE_COMPILER
   micro_speech_invoke();
 #else
@@ -209,10 +205,8 @@ void loop() {
     return;
   }
 #endif /* TFLM_MODE_COMPILER */
-#ifdef BENCHMARKING
-  ticks_after = HAL_GetTick();
-  update_avg_ticks(TICKS_INVOKE, (int32_t)(ticks_after-ticks_before));
-#endif /* BENCHMARKING */
+  STOP_BENCHMARK(invoke);
+
   // Obtain a pointer to the output tensor
 #ifdef TFLM_MODE_COMPILER
   TfLiteTensor* output = micro_speech_output(0);
@@ -228,9 +222,8 @@ void loop() {
   const char* found_command = nullptr;
   uint8_t score = 0;
   bool is_new_command = false;
-#ifdef BENCHMARKING
-  ticks_before = HAL_GetTick();
-#endif /* BENCHMARKING */
+
+  START_BENCHMARK(respond);
   TfLiteStatus process_status = recognizer->ProcessLatestResults(
       output, current_time, &found_command, &score, &is_new_command);
   if (process_status != kTfLiteOk) {
@@ -243,8 +236,11 @@ void loop() {
   // own function for a real application.
   RespondToCommand(error_reporter, current_time, found_command, score,
                    is_new_command);
-#ifdef BENCHMARKING
-  ticks_after = HAL_GetTick();
-  update_avg_ticks(TICKS_RESPOND, (int32_t)(ticks_after-ticks_before));
-#endif /* BENCHMARKING */
+  STOP_BENCHMARK(respond);
+
+  // The following lines will only run if benchmarking is enabled in CMakeLists.txt
+  PRINT_TIMESTAMP();
+  PRINT_BENCHMARK(populate);
+  PRINT_BENCHMARK(invoke);
+  PRINT_BENCHMARK(respond);
 }

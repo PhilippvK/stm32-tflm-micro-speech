@@ -34,10 +34,6 @@
 #include <cstdio>
 #include <math.h>
 
-#ifdef BENCHMARKING
-#include "benchmarking.h"
-#endif /* BENCHMARKING */
-
 /* Private typedef -----------------------------------------------------------*/
 
 /* Private define ------------------------------------------------------------*/
@@ -139,10 +135,6 @@ int main(void)
 #endif /* FAKE_MIC */
 
     loop();
-
-#ifdef BENCHMARKING
-    print_summary(TICKS_POPULATE|TICKS_INVOKE|TICKS_RESPOND);
-#endif /* BENCHMARKING */
   }
 
   return 0;
