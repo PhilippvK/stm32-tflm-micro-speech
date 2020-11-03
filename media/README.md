@@ -11,7 +11,7 @@ If microphone input is not deterministic/reliable enough for the 'Micro Speech' 
 
 ## Configure CMake
 
-0. Check if your board is compatible. See: [Boards](TODO)
+0. Check if your board is compatible. See: `CMakeLists.txt`
 
 1. Edit `CMakeLists.txt` an make sure, that the `FAKE_MIC` option is enabled
 
